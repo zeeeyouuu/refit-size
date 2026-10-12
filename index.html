@@ -326,7 +326,34 @@
 .rec-pill{font-family:Inter,Arial,sans-serif;font-size:10px;background:#111;color:#fff;padding:3px 6px;margin-left:8px;vertical-align:middle;letter-spacing:.02em}
 .refit-card.empty .rec-box{margin:0 0 12px;width:100%}
 .rec-why{border:0;background:none;color:#999;font-size:10px;padding:0;margin-left:6px;text-decoration:underline;cursor:pointer;letter-spacing:0}.rec-rule{display:none;margin:10px 0 2px;padding:10px 12px;background:#222;font-size:11px;line-height:1.7;color:#ccc}.rec-rule b{color:#fff}.rec-box.why .rec-rule{display:block}
+
+/* ?mode=base : REFIT 요소를 숨긴 '기존 화면' 모드 (검증 테스트의 '화면 없음' 조건) */
+.base .refit-only,.base [onclick*="refitAbout"],.base .refit-strip,.base .hero-cta,.base #refit,.base #refitCard,.base #pairBox,.base .body-filter,.base .compare,.base #fbBox,.base .detail-side>p.notice,.base #sv-real>.notice{display:none!important}
+.base .hs2{background-image:url('https://images.unsplash.com/photo-1587763776627-6fd8b39365ce?auto=format&fit=crop&w=1000&q=80');background-position:center 40%}
+
+.rec-cond{display:inline-block;margin-bottom:4px;color:#ccc;font-size:11px}
+/* P0: 10/14 수정 (반품자 기록 명시 · 큰 숫자 · 접기 · 체형 결과 강조 · 단면 안내) */
+.refit-note{font-size:11px;line-height:1.5;background:#fff7e0;border-left:3px solid #e0a800;padding:8px 10px;margin:0 0 12px;color:#444}
+.refit-note b{color:#111}
+.changed-tag{display:inline-block;font-size:11px;font-weight:600;background:#111;color:#fff;padding:6px 10px;margin:0 0 12px}
+.big-keep{display:flex;align-items:flex-end;gap:14px;margin:4px 0 8px}
+.big-n{font-family:'Playfair Display',serif;font-size:56px;line-height:.95;font-weight:500;letter-spacing:-.03em}
+.big-n small{font-size:24px;margin-left:2px}
+.big-t{display:flex;flex-direction:column;gap:3px;padding-bottom:4px}.big-t b{font-size:14px}.big-t span{font-size:11px;color:#888}
+.big-bar{height:10px;background:#eee;margin:0 0 14px}.big-bar i{display:block;height:100%;background:#111}
+details.fold{margin-top:6px}
+details.fold>summary{cursor:pointer;list-style:none;font-size:12px;font-weight:600;padding:11px 12px;border:1px solid #ddd;background:#fafafa;display:flex;justify-content:space-between;gap:10px;align-items:center}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary::after{content:'▾';margin-left:auto;color:#888}
+details.fold[open]>summary::after{content:'▴'}
+details.fold>summary span{font-weight:400;color:#888;font-size:11px}
+details.fold[open]>summary{margin-bottom:12px}
+details.pairfold>.pair{margin-top:0}
+.refit-card.flash{animation:cardflash 1.8s ease}
+@keyframes cardflash{0%,60%{box-shadow:0 0 0 4px rgba(224,168,0,.55)}100%{box-shadow:0 0 0 0 rgba(224,168,0,0)}}
+.notice.dan{background:#f4f2ee;padding:8px 10px;margin:10px 0}
 </style>
+<script>try{if(/[?&]mode=base(&|$)/.test(location.search))document.documentElement.classList.add('base')}catch(e){}</script>
 </head>
 <body>
 <div class="top">7만원 이상 구매 시 무료배송 · 첫 구매 10% 할인</div>
@@ -358,7 +385,7 @@
 <div class="step"><b>02</b><h3>Honest Fit</h3><p>"정사이즈예요"라는 말 대신, 실제로 어디가 맞고 어디가 안 맞았는지 솔직하게 보여드려요.</p></div>
 <div class="step"><b>03</b><h3>Less Return, Longer Wear</h3><p>처음부터 맞는 사이즈를 고르면 반품도 줄고, 옷도 더 오래 입게 돼요.</p></div>
 </div></div>
-<div class="page-sec"><h2>NOUVEAU<br>× REFIT</h2><div><p>누보는 사이즈 고민을 줄이기 위해 REFIT을 함께 운영해요. 돌아온 옷의 반품 이유를 모아, 사이즈를 고르는 순간 근거로 보여드려요.</p><div class="page-cta"><button class="cta" onclick="showPage('refitAbout')">REFIT 알아보기 →</button><button class="cta line" onclick="goHome('shop')">SHOP 보러가기</button></div></div></div>
+<div class="page-sec refit-only"><h2>NOUVEAU<br>× REFIT</h2><div><p>누보는 사이즈 고민을 줄이기 위해 REFIT을 함께 운영해요. 돌아온 옷의 반품 이유를 모아, 사이즈를 고르는 순간 근거로 보여드려요.</p><div class="page-cta"><button class="cta" onclick="showPage('refitAbout')">REFIT 알아보기 →</button><button class="cta line" onclick="goHome('shop')">SHOP 보러가기</button></div></div></div>
 <p class="notice">NOUVEAU는 Refit 사이즈 가이드 시연을 위한 가상의 쇼핑몰이에요. 실제 브랜드와 관련이 없으며, 상품·가격·데이터는 모두 예시입니다.</p>
 </div></section>
 <section id="refitAbout" class="page"><div class="page-wrap"><button class="back" onclick="showHome()">← BACK TO HOME</button>
@@ -415,13 +442,14 @@
 <button class="buy" id="retSubmit" onclick="retSubmit()">반품 신청하기</button>
 <div id="retDone" class="ret-done"></div>
 </div></section>
-<section id="product" class="detail"><div class="detail-wrap"><button class="back" onclick="showHome()">← BACK TO SHOP</button><div class="tabs" id="detailTabs"><button class="tab active" data-tab="info" onclick="switchTab('info')">정보</button><button class="tab" data-tab="size" onclick="switchTab('size')">사이즈</button><button class="tab" data-tab="rec" onclick="switchTab('rec')">추천</button><button class="tab" data-tab="review" onclick="switchTab('review')">후기<em id="revCnt">56</em></button><button class="tab" data-tab="qna" onclick="switchTab('qna')">문의<em id="qaCnt">6</em></button></div><div id="pane-info" class="pane on"><div class="detail-grid"><div class="gallery"><div class="detail-photo"><img id="galMain" src="https://images.unsplash.com/photo-1628519662791-c13362859149?auto=format&fit=crop&w=1200&q=85" alt="Classic Straight Denim 정면 착용 컷"></div><div class="thumbs"><button type="button" class="on" onclick="setGal(0)" aria-label="정면 착용 컷"><img src="https://images.unsplash.com/photo-1628519662791-c13362859149?auto=format&fit=crop&w=300&h=400&q=80" alt=""></button><button type="button" class="" onclick="setGal(1)" aria-label="뒷면 착용 컷"><img src="https://images.unsplash.com/photo-1587763776627-6fd8b39365ce?auto=format&fit=crop&w=300&h=400&q=80" alt=""></button><button type="button" class="" onclick="setGal(2)" aria-label="허리 디테일"><img src="https://images.unsplash.com/photo-1628519662791-c13362859149?auto=format&fit=crop&w=300&h=400&q=80" alt=""></button><button type="button" class="" onclick="setGal(3)" aria-label="원단 디테일"><img src="https://images.unsplash.com/photo-1770795945712-ebe92e4ed235?auto=format&fit=crop&w=300&h=400&q=80" alt=""></button></div></div><div class="detail-side"><div class="detail-brand">NOUVEAU / DENIM</div><h1 class="detail-title">Classic Straight Denim</h1><div class="detail-price">89,000 KRW</div><div class="size-label"><span>SIZE</span><span id="selectedText">Select a size</span></div><div class="sizes"><button class="size" onclick="selectSize(24,this)">24</button><button class="size" onclick="selectSize(25,this)">25</button><button class="size" onclick="selectSize(26,this)">26</button><button class="size" onclick="selectSize(27,this)">27</button><button class="size" onclick="selectSize(28,this)">28</button></div><div id="refitCard" class="refit-card empty">사이즈를 고르거나 키·몸무게를 입력하면<br>REFIT 추천 사이즈와 근거를 볼 수 있어요.</div><div id="pairBox"></div><div class="body-filter"><h3>내 체형으로 추천받기</h3><p>키와 몸무게를 입력하면 비슷한 체형이 가장 많이 산 사이즈와, 그 사이즈를 반품 없이 입은 비율로 추천 사이즈를 알려드려요.</p><div class="inputs"><input id="height" class="input" type="number" placeholder="cm" min="140" max="200"><input id="weight" class="input" type="number" placeholder="kg" min="35" max="120"></div><div class="input-help">키·몸무게를 입력하면 ±3cm · ±3kg 범위의 구매자만 다시 계산해요.</div><div class="chips"><button class="chip active" onclick="chooseBody(this,'전체')">전체</button><button class="chip" onclick="chooseBody(this,'스트레이트')">스트레이트</button><button class="chip" onclick="chooseBody(this,'웨이브')">웨이브</button><button class="chip" onclick="chooseBody(this,'내추럴')">내추럴</button><button type="button" class="body-q" onclick="document.getElementById('bodyHelp').classList.toggle('on')" aria-label="체형 타입 설명">?</button></div><div id="bodyHelp" class="body-help"><p><b>스트레이트</b> 상체에 두께감이 있고 근육이 잘 붙는 편 · 가슴과 엉덩이 위치가 높아요</p><p><b>웨이브</b> 상체가 얇고 하체에 볼륨이 있는 편 · 허리선이 낮고 곡선이 부드러워요</p><p><b>내추럴</b> 뼈대와 관절이 크고 어깨가 넓은 편 · 직선적인 골격이에요</p><p class="body-help-tip">잘 모르겠으면 [전체]로 두세요. 키·몸무게만으로도 비슷한 체형을 찾아드려요.</p></div><button class="filter-btn" onclick="applyFilter()">내 체형 추천 사이즈 보기</button></div><div class="compare"><button class="compare-btn" onclick="toggleCompare()">비슷한 체형은 어떤 사이즈를 샀을까? ＋</button><div id="compareContent" class="compare-content"><div class="compare-row"><b>25</b><span>122명</span><span>엉덩이·골반 낌</span></div><div class="compare-row"><b>26</b><span>168명</span><span>허리 큼</span></div><div class="compare-row"><b>27</b><span>30명</span><span>허리 큼</span></div><p class="notice">사이즈마다 안 맞았던 부위가 달라요. 사이즈를 눌러 반품 이유를 자세히 확인해보세요.</p></div></div><div id="fbBox" class="fb" style="display:none"><p>이 정보가 사이즈 고르는 데 도움이 됐나요?</p><div class="fb-btns"><button type="button" onclick="fbPick(this,'도움됐어요')">도움됐어요</button><button type="button" onclick="fbPick(this,'잘 모르겠어요')">잘 모르겠어요</button><button type="button" onclick="fbPick(this,'도움 안 됐어요')">도움 안 됐어요</button></div><div id="fbMore" style="display:none"><textarea id="fbText" maxlength="500" placeholder="어떤 점이 그랬나요? (선택)"></textarea><button type="button" class="send" onclick="fbSend()">의견 보내기</button></div></div><p class="notice">반품 사유는 사이즈·핏 관련 반품만 집계했어요.<br>이 화면의 데이터는 VOC·설문을 바탕으로 만든 예시 데이터입니다.<br><a href="#" class="ret-link" onclick="openReturn(CUR);return false">이 데이터는 반품 신청에서 이렇게 모여요 →</a></p><div class="buy-row"><button id="cartBtn" class="buy cart-btn" disabled onclick="addCart()">장바구니 담기</button><button id="buy" class="buy" disabled onclick="buy()">사이즈를 선택해주세요</button></div></div></div><div class="pdetail" id="pdetail"><h3 class="pd-title">DETAIL</h3><div class="pdetail-body"><figure><img src="https://images.unsplash.com/photo-1628519662791-c13362859149?auto=format&fit=crop&w=1000&q=85" alt="STRAIGHT FIT" loading="lazy"><figcaption><b>STRAIGHT FIT</b>허리부터 밑단까지 곧게 떨어지는 스트레이트 핏이에요.<br>모델 키 172cm · 26 사이즈 착용</figcaption></figure><figure><img src="https://images.unsplash.com/photo-1587763776627-6fd8b39365ce?auto=format&fit=crop&w=1000&q=85" alt="BACK VIEW" loading="lazy"><figcaption><b>BACK VIEW</b>뒤에서 봐도 일자로 떨어져서 다리가 길어 보여요.</figcaption></figure><figure><img src="https://images.unsplash.com/photo-1628519662791-c13362859149?auto=format&fit=crop&w=1000&q=85" alt="HIGH RISE" loading="lazy"><figcaption><b>HIGH RISE</b>허리를 감싸는 하이라이즈라 상의를 넣어 입기 좋아요.</figcaption></figure><figure><img src="https://images.unsplash.com/photo-1770795945712-ebe92e4ed235?auto=format&fit=crop&w=1000&q=85" alt="FABRIC" loading="lazy"><figcaption><b>FABRIC</b>면 98% · 폴리우레탄 2%<br>약간의 신축성이 있는 탄탄한 블랙 데님이에요.</figcaption></figure></div><button type="button" class="pdetail-more" onclick="togglePDetail()">상품 상세 더보기 ↓</button></div><div class="pinfo"><h3>상품 정보</h3><dl><dt>소재</dt><dd>면 98% · 폴리우레탄 2%</dd><dt>제조국</dt><dd>대한민국</dd><dt>세탁방법</dt><dd>뒤집어서 단독 찬물 세탁 · 건조기 사용 금지</dd><dt>모델 정보</dt><dd>키 172cm · 착용 사이즈 26</dd><dt>상품번호</dt><dd>NV-DN-001</dd></dl></div></div><div id="pane-size" class="pane"><div class="pane-col"><div class="mini"><img src="https://images.unsplash.com/photo-1628519662791-c13362859149?auto=format&fit=crop&w=300&q=85" alt="Classic Straight Denim"><div><div class="mb">NOUVEAU / DENIM</div><div class="mn">Classic Straight Denim [Black]</div><div class="mp">89,000 KRW</div></div></div>
+<section id="product" class="detail"><div class="detail-wrap"><button class="back" onclick="showHome()">← BACK TO SHOP</button><div class="tabs" id="detailTabs"><button class="tab active" data-tab="info" onclick="switchTab('info')">정보</button><button class="tab" data-tab="size" onclick="switchTab('size')">사이즈</button><button class="tab" data-tab="rec" onclick="switchTab('rec')">추천</button><button class="tab" data-tab="review" onclick="switchTab('review')">후기<em id="revCnt">56</em></button><button class="tab" data-tab="qna" onclick="switchTab('qna')">문의<em id="qaCnt">6</em></button></div><div id="pane-info" class="pane on"><div class="detail-grid"><div class="gallery"><div class="detail-photo"><img id="galMain" src="https://images.unsplash.com/photo-1628519662791-c13362859149?auto=format&fit=crop&w=1200&q=85" alt="Classic Straight Denim 정면 착용 컷"></div><div class="thumbs"><button type="button" class="on" onclick="setGal(0)" aria-label="정면 착용 컷"><img src="https://images.unsplash.com/photo-1628519662791-c13362859149?auto=format&fit=crop&w=300&h=400&q=80" alt=""></button><button type="button" class="" onclick="setGal(1)" aria-label="뒷면 착용 컷"><img src="https://images.unsplash.com/photo-1587763776627-6fd8b39365ce?auto=format&fit=crop&w=300&h=400&q=80" alt=""></button><button type="button" class="" onclick="setGal(2)" aria-label="허리 디테일"><img src="https://images.unsplash.com/photo-1628519662791-c13362859149?auto=format&fit=crop&w=300&h=400&q=80" alt=""></button><button type="button" class="" onclick="setGal(3)" aria-label="원단 디테일"><img src="https://images.unsplash.com/photo-1770795945712-ebe92e4ed235?auto=format&fit=crop&w=300&h=400&q=80" alt=""></button></div></div><div class="detail-side"><div class="detail-brand">NOUVEAU / DENIM</div><h1 class="detail-title">Classic Straight Denim</h1><div class="detail-price">89,000 KRW</div><div class="size-label"><span>SIZE</span><span id="selectedText">Select a size</span></div><div class="sizes"><button class="size" onclick="selectSize(24,this)">24</button><button class="size" onclick="selectSize(25,this)">25</button><button class="size" onclick="selectSize(26,this)">26</button><button class="size" onclick="selectSize(27,this)">27</button><button class="size" onclick="selectSize(28,this)">28</button></div><div id="refitCard" class="refit-card empty">사이즈를 고르면 그 사이즈를 <b>입어보고 반품한 분들의 이유</b>를 보여드려요.<br><small>(실제 반품 신청에서 모은 기록이에요)</small><br>키·몸무게를 입력하면 REFIT 추천 사이즈도 볼 수 있어요.</div><div id="pairBox"></div><div class="body-filter"><h3>내 체형으로 추천받기</h3><p>키와 몸무게를 입력하면 비슷한 체형이 가장 많이 산 사이즈와, 그 사이즈를 반품 없이 입은 비율로 추천 사이즈를 알려드려요.</p><div class="inputs"><input id="height" class="input" type="number" placeholder="cm" min="140" max="200"><input id="weight" class="input" type="number" placeholder="kg" min="35" max="120"></div><div class="input-help">키·몸무게를 입력하면 ±3cm · ±3kg 범위의 구매자만 다시 계산해요.</div><div class="chips"><button class="chip active" onclick="chooseBody(this,'전체')">전체</button><button class="chip" onclick="chooseBody(this,'스트레이트')">스트레이트</button><button class="chip" onclick="chooseBody(this,'웨이브')">웨이브</button><button class="chip" onclick="chooseBody(this,'내추럴')">내추럴</button><button type="button" class="body-q" onclick="document.getElementById('bodyHelp').classList.toggle('on')" aria-label="체형 타입 설명">?</button></div><div id="bodyHelp" class="body-help"><p><b>스트레이트</b> 상체에 두께감이 있고 근육이 잘 붙는 편 · 가슴과 엉덩이 위치가 높아요</p><p><b>웨이브</b> 상체가 얇고 하체에 볼륨이 있는 편 · 허리선이 낮고 곡선이 부드러워요</p><p><b>내추럴</b> 뼈대와 관절이 크고 어깨가 넓은 편 · 직선적인 골격이에요</p><p class="body-help-tip">잘 모르겠으면 [전체]로 두세요. 키·몸무게만으로도 비슷한 체형을 찾아드려요.</p></div><button class="filter-btn" onclick="applyFilter()">내 체형 추천 사이즈 보기</button></div><div class="compare"><button class="compare-btn" onclick="toggleCompare()">비슷한 체형은 어떤 사이즈를 샀을까? ＋</button><div id="compareContent" class="compare-content"><div class="compare-row"><b>25</b><span>122명</span><span>엉덩이·골반 낌</span></div><div class="compare-row"><b>26</b><span>168명</span><span>허리 큼</span></div><div class="compare-row"><b>27</b><span>30명</span><span>허리 큼</span></div><p class="notice">사이즈마다 안 맞았던 부위가 달라요. 사이즈를 눌러 반품 이유를 자세히 확인해보세요.</p></div></div><div id="fbBox" class="fb" style="display:none"><p>이 정보가 사이즈 고르는 데 도움이 됐나요?</p><div class="fb-btns"><button type="button" onclick="fbPick(this,'도움됐어요')">도움됐어요</button><button type="button" onclick="fbPick(this,'잘 모르겠어요')">잘 모르겠어요</button><button type="button" onclick="fbPick(this,'도움 안 됐어요')">도움 안 됐어요</button></div><div id="fbMore" style="display:none"><textarea id="fbText" maxlength="500" placeholder="어떤 점이 그랬나요? (선택)"></textarea><button type="button" class="send" onclick="fbSend()">의견 보내기</button></div></div><p class="notice">반품 사유는 사이즈·핏 관련 반품만 집계했어요.<br>이 화면의 데이터는 VOC·설문을 바탕으로 만든 예시 데이터입니다.<br><a href="#" class="ret-link" onclick="openReturn(CUR);return false">이 데이터는 반품 신청에서 이렇게 모여요 →</a></p><div class="buy-row"><button id="cartBtn" class="buy cart-btn" disabled onclick="addCart()">장바구니 담기</button><button id="buy" class="buy" disabled onclick="buy()">사이즈를 선택해주세요</button></div></div></div><div class="pdetail" id="pdetail"><h3 class="pd-title">DETAIL</h3><div class="pdetail-body"><figure><img src="https://images.unsplash.com/photo-1628519662791-c13362859149?auto=format&fit=crop&w=1000&q=85" alt="STRAIGHT FIT" loading="lazy"><figcaption><b>STRAIGHT FIT</b>허리부터 밑단까지 곧게 떨어지는 스트레이트 핏이에요.<br>모델 키 172cm · 26 사이즈 착용</figcaption></figure><figure><img src="https://images.unsplash.com/photo-1587763776627-6fd8b39365ce?auto=format&fit=crop&w=1000&q=85" alt="BACK VIEW" loading="lazy"><figcaption><b>BACK VIEW</b>뒤에서 봐도 일자로 떨어져서 다리가 길어 보여요.</figcaption></figure><figure><img src="https://images.unsplash.com/photo-1628519662791-c13362859149?auto=format&fit=crop&w=1000&q=85" alt="HIGH RISE" loading="lazy"><figcaption><b>HIGH RISE</b>허리를 감싸는 하이라이즈라 상의를 넣어 입기 좋아요.</figcaption></figure><figure><img src="https://images.unsplash.com/photo-1770795945712-ebe92e4ed235?auto=format&fit=crop&w=1000&q=85" alt="FABRIC" loading="lazy"><figcaption><b>FABRIC</b>면 98% · 폴리우레탄 2%<br>약간의 신축성이 있는 탄탄한 블랙 데님이에요.</figcaption></figure></div><button type="button" class="pdetail-more" onclick="togglePDetail()">상품 상세 더보기 ↓</button></div><div class="pinfo"><h3>상품 정보</h3><dl><dt>소재</dt><dd>면 98% · 폴리우레탄 2%</dd><dt>제조국</dt><dd>대한민국</dd><dt>세탁방법</dt><dd>뒤집어서 단독 찬물 세탁 · 건조기 사용 금지</dd><dt>모델 정보</dt><dd>키 172cm · 착용 사이즈 26</dd><dt>상품번호</dt><dd>NV-DN-001</dd></dl></div></div><div id="pane-size" class="pane"><div class="pane-col"><div class="mini"><img src="https://images.unsplash.com/photo-1628519662791-c13362859149?auto=format&fit=crop&w=300&q=85" alt="Classic Straight Denim"><div><div class="mb">NOUVEAU / DENIM</div><div class="mn">Classic Straight Denim [Black]</div><div class="mp">89,000 KRW</div></div></div>
 <h2 class="pane-title">사이즈</h2><div class="pane-sub">단위 cm · 측정 방법에 따라 1~3cm 오차가 있을 수 있어요.</div>
 <div class="seg"><button id="sg-real" class="on" onclick="setSizeView('real')">실측 사이즈</button><button id="sg-std" onclick="setSizeView('std')">기준표 사이즈</button></div>
 <div id="sv-real">
 <div class="act-row"><button class="act" onclick="openSheet('sheetHist')">구매내역 실측 선택하기</button><button class="act" onclick="openSheet('sheetManual')">실측 직접 입력하기</button></div>
 <div id="cmpBanner" class="cmp-banner"></div>
 <div class="tscroll" id="realTable"></div>
+<p class="notice dan"><b>단면</b>은 옷을 평평하게 놓고 잰 폭이라 <b>둘레의 절반</b>이에요. (예: 허리 단면 34cm → 허리 둘레 약 68cm)</p>
 <p class="notice">사이즈 행을 누르면 해당 사이즈가 선택돼요. [정보] 탭에서 그 사이즈의 반품 이유를 확인할 수 있어요.</p>
 </div>
 <div id="sv-std" style="display:none">
@@ -561,11 +589,14 @@ function recHTML(){
   if(!REC||REC.none||!REC.best)return '<div class="rec-box empty"><span>입력한 키·몸무게와 비슷한 구매자가 아직 적어서 추천 사이즈를 정하지 않았어요. 아래 사이즈별 데이터를 참고해주세요.</span></div>';
   var b=REC.best,cur=selected!=null&&selected!==b.z?REC.stats.filter(function(x){return x.z===selected})[0]:null;
   return '<div class="rec-box"><div class="rec-k">REFIT 추천 사이즈 <button type="button" class="rec-why" onclick="this.closest(\'.rec-box\').classList.toggle(\'why\')">추천 기준 ⓘ</button></div><div class="rec-v">'+b.z+'</div>'+
-    '<div class="rec-t">'+recCond()+' 비슷한 체형 <b>'+REC.pool.toLocaleString()+'명</b> 중 <b>'+b.share+'%</b>가 '+b.z+jo(b.z)+' 샀고, 그중 <b>'+b.keep+'%</b>가 반품 없이 입었어요.</div>'+
+    '<div class="rec-t"><span class="rec-cond">'+recCond()+'</span><br>비슷한 체형 <b>'+REC.pool.toLocaleString()+'명</b> 중 <b>'+b.share+'%</b>가 '+b.z+jo(b.z)+' 샀고, 그중 <b>'+b.keep+'%</b>가 반품 없이 입었어요.</div>'+
     '<div class="rec-rule">비슷한 체형(키·몸무게 ±'+REC.range+') 구매자 중, 전체의 8% 이상이 산 사이즈만 후보로 두고 그중 <b>반품 없이 입은 비율이 가장 높은 사이즈</b>를 추천해요. 비슷한 체형이 80명 미만이면 추천하지 않아요. 사이즈·핏 반품만 집계해요.</div>'+(cur?'<div class="rec-note">지금 고른 <b>'+cur.z+'</b>'+eun(cur.z)+(cur.n<10?' 비슷한 체형 중 산 사람이 거의 없어요.':' 비슷한 체형의 '+cur.share+'%가 샀고, 반품 없이 입은 비율은 '+cur.keep+'%예요.')+'<button type="button" onclick="pickRec()">'+b.z+' 사이즈로 바꾸기</button></div>':'')+'</div>';
 }
 function pickRec(){if(!REC||!REC.best)return;var btn=[].filter.call(document.querySelectorAll('.sizes .size'),function(x){return x.textContent===String(REC.best.z)})[0];if(btn)btn.click()}
 
+var reasonsOpen=false,pairOpen=false;
+var NOTE='<div class="refit-note"><b>실제 반품 신청에서 모은 기록이에요.</b> 이 사이즈를 입어보고 돌려보낸 분들의 이유예요.</div>';
+function changedTag(){return filtered?'<div class="changed-tag">✓ 내 체형('+H+'cm · '+W+'kg) 기준으로 결과가 바뀌었어요</div>':''}
 function renderReasons(){
   var card=document.getElementById('refitCard');calcRec();
   if(!selected){if(filtered){card.className='refit-card';card.innerHTML=recHTML()}return}
@@ -574,17 +605,18 @@ function renderReasons(){
   var t=topBars(pool.filter(function(d){return d.size===selected}));
   if(t.returns<min){
     card.className='refit-card empty';
-    card.innerHTML=recHTML()+(filtered?'비슷한 체형의 '+selected+' 데이터가 아직 적어요.':'아직 데이터가 충분하지 않아요.')+'<br><small>사이즈·핏 반품 '+t.returns+'건 · '+min+'건 이상부터 이유를 보여드려요</small>'+(filtered?'<div class="tip" style="margin-top:14px">'+cond()+'</div>':'');
+    card.innerHTML=NOTE+changedTag()+recHTML()+(filtered?'비슷한 체형의 '+selected+' 데이터가 아직 적어요.':'아직 데이터가 충분하지 않아요.')+'<br><small>사이즈·핏 반품 '+t.returns+'건 · '+min+'건 이상부터 이유를 보여드려요</small>'+(filtered?'<div class="tip" style="margin-top:14px">'+cond()+'</div>':'');
     return;
   }
   card.className='refit-card';
   var keep=t.buyers?Math.round((1-t.returns/t.buyers)*100):0;
-  card.innerHTML=recHTML()+'<div class="refit-label">REFIT DATA · '+(filtered&&RANGE<99?'SIMILAR BODY':'ALL BUYERS')+'</div>'+(filtered?'<div class="filter-condition">'+cond()+'</div>'+(RANGE>=99?'<div class="notice" style="margin:-4px 0 10px">입력한 키·몸무게와 비슷한 구매자가 아직 적어서, 전체 구매자 기준으로 보여드려요.</div>':RANGE>3?'<div class="notice" style="margin:-4px 0 10px">±3 범위는 데이터가 적어서 ±'+RANGE+'로 넓혀 보여드려요.</div>':''):'')+
-    '<div class="refit-title">'+(filtered&&RANGE<99?'비슷한 체형의 ':'')+selected+' 구매자 '+t.buyers.toLocaleString()+'명 중 <b class="keep">'+keep+'%</b>는 반품 없이 입었어요</div>'+
-    '<div class="refit-sub">안 맞았던 '+(100-keep)+'%의 이유 · 이런 점을 주의하세요 <span>(반품 '+t.returns.toLocaleString()+'건)</span></div>'+
+  card.innerHTML=NOTE+changedTag()+recHTML()+'<div class="refit-label">REFIT DATA · '+(filtered&&RANGE<99?'SIMILAR BODY':'ALL BUYERS')+'</div>'+(filtered?'<div class="filter-condition">'+cond()+'</div>'+(RANGE>=99?'<div class="notice" style="margin:-4px 0 10px">입력한 키·몸무게와 비슷한 구매자가 아직 적어서, 전체 구매자 기준으로 보여드려요.</div>':RANGE>3?'<div class="notice" style="margin:-4px 0 10px">±3 범위는 데이터가 적어서 ±'+RANGE+'로 넓혀 보여드려요.</div>':''):'')+
+    '<div class="big-keep"><div class="big-n">'+keep+'<small>%</small></div><div class="big-t"><b>반품 없이 입었어요</b><span>'+(filtered&&RANGE<99?'비슷한 체형의 ':'')+selected+' 구매자 '+t.buyers.toLocaleString()+'명 중</span></div></div><div class="big-bar"><i style="width:'+keep+'%"></i></div>'+
+    '<details class="fold"'+(reasonsOpen?' open':'')+' ontoggle="reasonsOpen=this.open"><summary>안 맞았던 '+(100-keep)+'%의 이유 보기<span>1위 '+t.bars[0][0]+' '+t.bars[0][1]+'%</span></summary>'+
+    '<div class="refit-sub">이런 점을 주의하세요 <span>(반품 '+t.returns.toLocaleString()+'건)</span></div>'+
     t.bars.map(function(r,i){var etc=r[0]==='기타';return '<div class="reason"'+(etc?' style="color:#999"':'')+'><span>'+(etc&&r[3]?'기타 '+r[3]+'종':r[0])+'</span><div class="bar"><i style="width:'+r[1]+'%;opacity:'+(i===0&&!etc?1:.3)+'"></i></div><span>'+r[1]+'% <small>· '+r[2]+'건</small></span></div>'}).join('')+
     (t.bars.some(function(r){return r[0]==='기타'})?'<div class="notice" style="margin:8px 0 0;font-size:11px;color:#999">전체 반품의 5% 미만인 이유는 \'기타\'로 묶었어요.</div>':'')+
-    tipHTML(firstReason(t));
+    tipHTML(firstReason(t))+'</details>';
 }
 function renderCompare(){
   var box=document.getElementById('compareContent');
@@ -604,7 +636,7 @@ function applyFilter(){
   H=Math.round(h);W=Math.round(w);filtered=true;
   calcRec();if(REC&&REC.best&&REC.best.z!==selected){pickRec()}else{renderReasons()}
   renderCompare();
-  document.getElementById('refitCard').scrollIntoView({behavior:'smooth',block:'center'});
+  var c0=document.getElementById('refitCard');window.scrollTo({top:c0.getBoundingClientRect().top+window.scrollY-110,behavior:'smooth'});c0.classList.remove('flash');void c0.offsetWidth;c0.classList.add('flash');
   toast(REC&&REC.best?'추천 사이즈는 '+REC.best.z+'예요.':'비슷한 체형 조건을 적용했어요.');
 }
 function toggleCompare(){var c=document.getElementById('compareContent');if(!c.classList.contains('open'))renderCompare();c.classList.toggle('open')}
@@ -620,7 +652,7 @@ function guideExp(){
 var TIPPART={'허벅지 낌':'thigh','엉덩이 낌':'hip','어깨 큼':'shoulder','어깨 좁음':'shoulder','가슴 낌':'chest','품 큼':'chest','소매 짧음':'sleeve','소매 김':'sleeve','총장 짧음':'len','총장 김':'len','암홀 큼':'arm','암홀 좁음':'arm','엉덩이·골반 낌':'hip','허리 큼':'waist','허리 작음':'waist','밑위 짧음':'rise','기장 짧음':'len','기장 김':'len','엉덩이·골반 큼':'hip','엉덩이 큼':'hip','허벅지 큼':'thigh','밑위 김':'rise','핏이 설명과 다름':'review'};
 var HL=null;
 function tipHTML(r){
-  var txt=r==='핏이 설명과 다름'?'착용 후기를 확인해보세요':(TIPS[r]||'사이즈표를')+' 사이즈표에서 확인해보세요';
+  var txt=r==='핏이 설명과 다름'?'착용 후기를 확인해보세요':(TIPS[r]||'사이즈표를')+' 사이즈표에서 확인해보세요';txt=txt.replace('단면','단면(둘레의 절반)');
   return '<button type="button" class="tip tip-btn" onclick="goTip(\''+r+'\')">확인 팁 · '+txt+' →</button>';
 }
 function goTip(r){
@@ -671,9 +703,9 @@ function renderPair(){
     if(SMALLR.indexOf(A.top)>=0&&BIGR.indexOf(B.top)>=0&&CAREFUL[A.top]&&CAREFUL[B.top])
       sum+='<br>→ '+CAREFUL[A.top]+'이라면 <b>'+b+'</b>, '+CAREFUL[B.top]+'이라면 <b>'+a+'</b>'+iga(a)+' 덜 불편할 가능성이 커요.';
   }
-  box.innerHTML='<div class="pair"><div class="pair-head"><b>고민되는 두 사이즈 비교</b><div class="pair-tog">'+
+  box.innerHTML='<details class="fold pairfold"'+(pairOpen?' open':'')+' ontoggle="pairOpen=this.open"><summary>고민되는 두 사이즈 비교하기</summary><div class="pair"><div class="pair-head"><b>고민되는 두 사이즈 비교</b><div class="pair-tog">'+
     cand.map(function(z){var lo=SZ.indexOf(z)<SZ.indexOf(selected),x=lo?z:selected,y=lo?selected:z;return '<button type="button" class="'+(z===pairWith?'on':'')+'" onclick="setPair('+SZ.indexOf(z)+')">'+x+' vs '+y+'</button>'}).join('')+
-    '</div></div><div class="pair-grid">'+col(A)+col(B)+'</div><div class="pair-sum">'+sum+'</div></div>';
+    '</div></div><div class="pair-grid">'+col(A)+col(B)+'</div><div class="pair-sum">'+sum+'</div></div></details>';
 }
 
 /* ===== 도움이 됐나요? → 구글폼 =====
@@ -1097,7 +1129,7 @@ function loadProduct(id){
   document.querySelectorAll('.sizes .size').forEach(function(b){b.classList.remove('selected')});
   document.getElementById('selectedText').textContent='Select a size';
   var buyB=document.getElementById('buy');buyB.disabled=true;buyB.textContent='사이즈를 선택해주세요';document.getElementById('cartBtn').disabled=true;
-  var c=document.getElementById('refitCard');c.className='refit-card empty';c.innerHTML='사이즈를 고르거나 키·몸무게를 입력하면<br>REFIT 추천 사이즈와 근거를 볼 수 있어요.';
+  var c=document.getElementById('refitCard');c.className='refit-card empty';c.innerHTML='사이즈를 고르면 그 사이즈를 <b>입어보고 반품한 분들의 이유</b>를 보여드려요.<br><small>(실제 반품 신청에서 모은 기록이에요)</small><br>키·몸무게를 입력하면 REFIT 추천 사이즈도 볼 수 있어요.';
   document.getElementById('pairBox').innerHTML='';
   document.getElementById('height').value='';document.getElementById('weight').value='';
   document.querySelectorAll('.chip').forEach(function(x,i){x.classList.toggle('active',i===0)});
