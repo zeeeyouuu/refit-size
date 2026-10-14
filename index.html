@@ -921,17 +921,17 @@ function togglePDetail(){
 /* ===== 반품 신청: 부위별 5단계 + REFIT 데이터에 바로 반영 ===== */
 var RET_SCALE=['많이 작아요','조금 작아요','딱 맞아요','조금 커요','많이 커요'];
 var RET_ANCHOR={
-  waist:['단추가 잠기지 않아요','앉으면 배가 조여요','딱 맞아요','허리에 주먹 하나가 들어가요','벨트 없이는 흘러내려요'],
-  hip:['지퍼가 끝까지 안 올라가요','앉을 때 엉덩이가 당겨요','딱 맞아요','뒤쪽이 남아서 주름져요','엉덩이 쪽이 많이 떠요'],
-  thigh:['입기 힘들 만큼 껴요','걸을 때 쓸리고 당겨요','딱 맞아요','살짝 펄럭여요','원래 핏보다 훨씬 넓어요'],
-  rise:['허리선이 골반까지 내려가요','앉으면 뒤가 내려가요','딱 맞아요','밑위가 처져요','허리가 배꼽 위까지 올라와요'],
-  len:['발목이 훤히 보여요','생각보다 3~5cm 짧아요','딱 맞아요','바닥에 살짝 끌려요','수선 없이는 못 입어요'],
-  shoulder:['팔을 올리기 힘들어요','어깨선이 안쪽으로 당겨요','딱 맞아요','어깨선이 팔로 내려와요','어깨가 많이 흘러내려요'],
-  chest:['단추·지퍼가 잠기지 않아요','팔을 모으면 가슴이 당겨요','딱 맞아요','품이 넉넉해요','옷 안에서 몸이 떠요'],
-  sleeve:['손목이 다 드러나요','팔을 뻗으면 짧아요','딱 맞아요','손등을 덮어요','손가락까지 덮어요'],
-  arm:['팔을 움직이면 겨드랑이가 껴요','암홀이 살짝 조여요','딱 맞아요','옆이 살짝 벌어져요','속옷이 보일 만큼 벌어져요']
+  waist:['단추·지퍼가 잠기지 않아요','잠기지만 앉으면 조여요','딱 맞아요','벨트 없이는 조금씩 내려가요','벨트를 해도 흘러내려요'],
+  hip:['지퍼가 끝까지 올라가지 않아요','앉으면 엉덩이 쪽이 당겨요','딱 맞아요','엉덩이 뒤쪽에 주름이 생겨요','엉덩이 쪽 천이 떠서 뒤가 처져요'],
+  thigh:['입고 벗기 힘들 만큼 끼어요','걷거나 앉으면 허벅지가 당겨요','딱 맞아요','허벅지 둘레에 천이 남아요','허벅지 옆 천이 접힐 만큼 남아요'],
+  rise:['허리선이 골반뼈 아래에 걸려요','앉으면 허리 뒤가 내려가요','딱 맞아요','가랑이 부분이 아래로 처져요','허리선이 배꼽 위까지 올라와요'],
+  len:['정강이가 드러날 만큼 짧아요','발목이 드러나요','딱 맞아요','밑단이 바닥에 닿아요','밑단이 끌려서 접어야 해요'],
+  shoulder:['팔을 올리기 힘들어요','어깨선이 안쪽으로 당겨요','딱 맞아요','어깨선이 팔 쪽으로 내려와요','어깨선이 팔 중간까지 내려와요'],
+  chest:['단추·지퍼가 잠기지 않아요','팔을 모으면 가슴 쪽이 당겨요','딱 맞아요','옷과 몸 사이에 여유가 남아요','옷이 몸에 닿지 않고 떠요'],
+  sleeve:['손목뼈가 드러나요','팔을 뻗으면 손목이 드러나요','딱 맞아요','소매가 손등을 덮어요','소매가 손가락까지 덮어요'],
+  arm:['팔을 움직이면 겨드랑이가 껴요','팔을 올리면 암홀이 당겨요','딱 맞아요','옆선이 몸에서 벌어져요','팔을 올리면 옆구리가 보여요']
 };
-var TOP_LEN=['배·허리가 드러나요','생각보다 짧아요','딱 맞아요','엉덩이를 덮어요','원피스처럼 길어요'];
+var TOP_LEN=['허리선이 드러나요','팔을 올리면 배가 드러나요','딱 맞아요','엉덩이를 덮어요','허벅지 중간까지 내려와요'];
 function retPartsOf(id){var P=PRODUCTS[id],top=P.prof&&P.prof.top;return (P.parts||PANTS.parts).filter(function(q){return q[0]!=='hem'}).map(function(q){return [q[0],q[1].replace('단면','').replace('길이',''),top&&q[0]==='len'?TOP_LEN:RET_ANCHOR[q[0]]]})}
 function retLabel(id,key,dir){var P=PRODUCTS[id],top=P.prof&&P.prof.top,men=P.prof&&P.prof.men;
   var M=top?{shoulder:['어깨 좁음','어깨 큼'],chest:['가슴 낌','품 큼'],sleeve:['소매 짧음','소매 김'],arm:['암홀 좁음','암홀 큼'],len:['총장 짧음','총장 김']}
@@ -958,13 +958,13 @@ function retSetProduct(id){
   document.getElementById('retParts').innerHTML=retPartsOf(id).map(function(q){
     return '<div class="ret-part" data-k="'+q[0]+'"><div class="ret-part-h"><b>'+q[1]+'</b><span>'+RET_SCALE[2]+'</span></div><div class="ret-scale">'+
       [0,1,2,3,4].map(function(i){return '<button type="button" class="'+(i===2?'on mid':'')+'" onclick="retLevel(\''+q[0]+'\','+i+',this)">'+RET_SCALE[i]+'</button>'}).join('')+
-      '</div></div>'}).join('');
+      '</div><div class="ret-desc">'+q[2][2]+'</div></div>'}).join('');
 }
 function retLevel(k,i,el){
-  var box=el.closest('.ret-part');
+  var box=el.closest('.ret-part'),q=retPartsOf(RET.id).filter(function(x){return x[0]===k})[0];
   RET.lv[k]=i-2;
   box.querySelectorAll('.ret-scale button').forEach(function(b,j){b.classList.toggle('on',j===i)});
-  box.querySelector('.ret-part-h span').textContent=RET_SCALE[i];
+  box.querySelector('.ret-part-h span').textContent=RET_SCALE[i];box.querySelector('.ret-desc').textContent=q[2][i];
 }
 function retReason(el,v){RET.reason=v;document.querySelectorAll('#retReason button').forEach(function(b){b.classList.toggle('on',b===el)});
   document.getElementById('retFitSteps').style.display=v==='fit'?'block':'none';document.getElementById('retEtcBox').style.display=v==='fit'?'none':'block';
