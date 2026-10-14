@@ -528,6 +528,9 @@ body,button,input,textarea,select{font-family:Pretendard,-apple-system,'Apple SD
 .mfollow{background:#fff;cursor:pointer;font-family:inherit}.mfollow.on{border-color:#ff3b30}.mfollow.on .mhh{color:#ff3b30}
 .demo-btn{display:block;width:100%;margin-top:8px;padding:11px 12px;border:1px dashed #999;background:#fff;color:#555;font-size:12px}.demo-btn:hover{border-color:#111;color:#111}
 .exch-row{margin:14px 0 4px;padding:12px 14px;background:#f6f4f0}.exch-k{font-size:11px;color:#777;margin-bottom:4px}.exch-v{font-size:13px}.exch-row small{display:block;margin-top:6px;font-size:10px;color:#999}.rn{display:inline}
+.cmp-vs{margin:2px 0 16px;padding:14px;border:1px solid #eee;background:#fff}.cmp-h{font-size:12px;color:#555;margin-bottom:10px}.cmp-h b{color:#111}
+.cmp-grid{display:grid;grid-template-columns:1fr 28px 1fr;align-items:stretch;gap:6px}.cmp-c{padding:12px 10px;background:#f6f6f6;text-align:center}.cmp-c small{display:block;font-size:10px;color:#888;margin-bottom:6px}.cmp-c b{display:block;font-size:17px;line-height:1.25;font-weight:700}.cmp-c span{display:block;margin-top:6px;font-size:10px;color:#888;line-height:1.4}
+.cmp-r{background:#111;color:#fff}.cmp-r small,.cmp-r span{color:#bbb}.cmp-mid{align-self:center;text-align:center;font-size:10px;color:#999}.cmp-note{margin-top:10px;font-size:11px;color:#777;line-height:1.5}
 </style>
 <script>try{if(/[?&]mode=base(&|$)/.test(location.search))document.documentElement.classList.add('base')}catch(e){}</script>
 </head>
@@ -811,7 +814,7 @@ function renderReasons(){
   card.className='refit-card';
   var keep=t.buyers?Math.round((1-t.returns/t.buyers)*100):0;
   card.innerHTML=NOTE+changedTag()+'<div class="not-rec">추천이 아니에요. 이 사이즈를 먼저 반품한 사람들이 남긴 이유예요.</div>'+(filtered?'<div class="filter-condition">'+cond()+'</div>'+(RANGE>=99?'<div class="notice" style="margin:-4px 0 10px">입력한 키·몸무게와 비슷한 구매자가 아직 적어서, 전체 구매자 기준으로 보여드려요.</div>':RANGE>3?'<div class="notice" style="margin:-4px 0 10px">±3 범위는 데이터가 적어서 ±'+RANGE+'로 넓혀 보여드려요.</div>':''):'')+
-    '<div class="big-keep"><div class="big-n">'+keep+'<small>%</small></div><div class="big-t"><b>반품·교환 없이 입었어요</b><span>'+(filtered&&RANGE<99?'비슷한 체형의 ':'')+selected+' 구매자 '+t.buyers.toLocaleString()+'명 중 · 사이즈·핏 반품·교환 신청 '+t.returns.toLocaleString()+'건</span></div></div><div class="big-bar"><i style="width:'+keep+'%"></i></div>'+
+    contrastHTML(t)+'<div class="big-keep"><div class="big-n">'+keep+'<small>%</small></div><div class="big-t"><b>반품·교환 없이 입었어요</b><span>'+(filtered&&RANGE<99?'비슷한 체형의 ':'')+selected+' 구매자 '+t.buyers.toLocaleString()+'명 중 · 사이즈·핏 반품·교환 신청 '+t.returns.toLocaleString()+'건</span></div></div><div class="big-bar"><i style="width:'+keep+'%"></i></div>'+
     '<div class="fold-static"><div class="fold-head">'+selected+' 사이즈 반품 사유<span>'+t.returns.toLocaleString()+'건 기준 · 1위 '+t.bars[0][0]+' '+t.bars[0][1]+'%</span></div>'+
     '<div class="refit-sub">안 맞았던 '+(100-keep)+'%의 사유 · 이런 점을 주의하세요</div>'+
     t.bars.map(function(r,i){var etc=r[0]==='기타';return '<div class="reason"'+(etc?' style="color:#999"':'')+'><span>'+(etc&&r[3]?'기타 '+r[3]+'종':r[0])+'</span><div class="bar"><i style="width:'+r[1]+'%;opacity:'+(i===0&&!etc?1:.3)+'"></i></div><span>'+r[1]+'% <small>· '+r[2]+'건</small></span></div>'}).join('')+
@@ -1104,6 +1107,19 @@ function exchHTML(pool){
   var tot=u+dn,up=nb(selected,1),down=nb(selected,-1);if(!tot||up===undefined||down===undefined)return '';
   var parts=[];if(down!==undefined)parts.push('<b>'+down+'</b> 사이즈로 '+Math.round(dn/tot*100)+'%');if(up!==undefined)parts.push('<b>'+up+'</b> 사이즈로 '+Math.round(u/tot*100)+'%');
   return '<div class="exch-row"><div class="exch-k">교환한 사람들은</div><div class="exch-v">'+parts.join(' · ')+'</div><small>사이즈·핏 사유 '+tot+'건 기준 · 예시 데이터</small></div>';
+}
+
+/* 후기 vs 반품·교환 대비 카드: 같은 사이즈를 후기는 어떻게, 반품·교환한 사람은 어떻게 말하는지 */
+function contrastHTML(t){
+  if(!t||!t.bars||!t.bars[0]||typeof REVIEWS==='undefined'||!REVIEWS.length)return '';
+  var rv=REVIEWS.filter(function(r){return r.size===selected}),own=rv.length>=5;if(!own)rv=REVIEWS;
+  var n=rv.length,fit=0,st=0;rv.forEach(function(r){if(r.fit===2)fit++;st+=(+r.st||5)});
+  var top=t.bars[0],sub=own?'★'+(st/n).toFixed(1)+' · 후기 '+n+'건':'전체 후기 '+n+'건 기준 · 이 사이즈 후기는 적어요';
+  return '<div class="cmp-vs"><div class="cmp-h">같은 <b>'+selected+'</b>, 다른 이야기</div><div class="cmp-grid">'+
+    '<div class="cmp-c"><small>산 사람의 후기</small><b>정사이즈 '+Math.round(fit/n*100)+'%</b><span>'+sub+'</span></div>'+
+    '<div class="cmp-mid">vs</div>'+
+    '<div class="cmp-c cmp-r"><small>돌려보낸 사람의 이유</small><b>'+top[0]+' '+top[1]+'%</b><span>반품·교환 '+t.returns.toLocaleString()+'건 기준</span></div>'+
+    '</div><div class="cmp-note">후기에는 거의 안 보이는 이야기가 반품·교환에는 남아 있어요. (예시 데이터)</div></div>';
 }
 var FOLLOWED=false;
 function followSync(){document.querySelectorAll('.mfol,.mfollow').forEach(function(b){b.classList.toggle('on',FOLLOWED);var h=b.querySelector('.mhh');if(h)h.textContent=FOLLOWED?'♥':'♡'})}
