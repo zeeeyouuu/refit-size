@@ -1086,7 +1086,7 @@ function renderCart(){
 }
 
 /* 시연용 체형 불러오기 (1번 클래식 데님 · 5번 트라우저스) */
-var DEMO={classic:{size:27,h:160,w:50},trousers:{size:32,h:172,w:62}};
+var DEMO={classic:{size:26,h:160,w:46},trousers:{size:30,h:170,w:62}};
 function demoBtnSync(){var b=document.getElementById('demoBtn'),d=DEMO[CUR];if(!b)return;if(!d){b.style.display='none';return}b.style.display='block';b.textContent='시연 체형 불러오기 · 키 '+d.h+' · 몸무게 '+d.w+' · '+d.size+' 선택'}
 function loadDemo(){
   var d=DEMO[CUR];if(!d)return;
