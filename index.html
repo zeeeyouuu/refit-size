@@ -511,6 +511,7 @@ body,button,input,textarea,select{font-family:Pretendard,-apple-system,'Apple SD
 .rf-banner b{display:block;font-size:14px;line-height:1.6;font-weight:500;letter-spacing:-.01em}
 .rf-banner>span{display:block;font-size:13px;opacity:.85;margin-top:6px}.rf-banner .rf-name{opacity:1}
 .ret-cta{display:block;width:100%;margin:2px 0 0;padding:12px 14px;border:1px solid #111;background:#fff;color:#111;font-size:13px;font-weight:600;text-align:center;cursor:pointer}.ret-cta small{display:block;margin-top:3px;font-size:11px;font-weight:400;color:#777}
+.chip-q{width:22px;height:22px;border:1px solid #bbb;border-radius:50%;background:#fff;color:#666;font-size:12px;line-height:1;align-self:center;margin-left:2px;cursor:pointer}.body-tip{display:none;margin-top:8px;padding:12px 14px;background:#f6f4f0;font-size:12px;line-height:1.7;color:#333}.body-tip.on{display:block}.body-tip b{display:inline-block;min-width:62px;font-weight:600}.body-tip small{color:#888}
 </style>
 <script>try{if(/[?&]mode=base(&|$)/.test(location.search))document.documentElement.classList.add('base')}catch(e){}</script>
 </head>
@@ -597,11 +598,12 @@ body,button,input,textarea,select{font-family:Pretendard,-apple-system,'Apple SD
 <button type="button" class="on" onclick="retReason(this,'fit')">사이즈·핏이 안 맞아요</button><button type="button" onclick="retReason(this,'mind')">단순 변심</button><button type="button" onclick="retReason(this,'defect')">상품 불량</button><button type="button" onclick="retReason(this,'ship')">오배송</button></div>
 <p class="ret-note" id="retReasonNote"></p><div id="retEtcBox" style="display:none"><textarea id="retEtc" class="ret-etc" maxlength="300" placeholder="반품 사유를 자세히 적어주세요. (예: 생각했던 색감과 달라요 / 박음질이 풀려 있어요 / 다른 사이즈가 왔어요)"></textarea></div></div>
 <div id="retFitSteps">
-<div class="ret-step"><h3><em>2</em>부위별로 어땠나요?</h3><p class="ret-help">안 맞았던 부위만 골라주세요. 나머지는 "딱 맞아요"로 둬도 괜찮아요.</p><div id="retParts"></div></div>
+<div class="ret-step"><h3><em>2</em>부위별로 어땠나요?</h3><p class="ret-help">안 맞았던 부위만 골라주세요. 고르지 않은 부위와 "딱 맞아요"는 집계에 넣지 않아요.</p><div id="retParts"></div></div>
 <div class="ret-step"><h3><em>3</em>어떤 사이즈였으면 맞았을까요?</h3><div class="ret-opts" id="retWish"></div></div>
 <div class="ret-step"><h3><em>4</em>체형 정보 <span>(선택)</span></h3><p class="ret-help">입력하면 비슷한 체형의 고객에게만 묶어서 보여줘요. 이름·연락처와는 연결되지 않아요.</p>
 <div class="inputs"><input id="retH" class="input" type="number" placeholder="키 cm" min="140" max="200"><input id="retW" class="input" type="number" placeholder="몸무게 kg" min="35" max="120"></div>
-<div class="chips" id="retBody"><button type="button" class="chip active" onclick="retBody(this,'')">모르겠어요</button><button type="button" class="chip" onclick="retBody(this,'스트레이트')">스트레이트</button><button type="button" class="chip" onclick="retBody(this,'웨이브')">웨이브</button><button type="button" class="chip" onclick="retBody(this,'내추럴')">내추럴</button></div>
+<div class="chips" id="retBody"><button type="button" class="chip active" onclick="retBody(this,'')">모르겠어요</button><button type="button" class="chip" onclick="retBody(this,'스트레이트')">스트레이트</button><button type="button" class="chip" onclick="retBody(this,'웨이브')">웨이브</button><button type="button" class="chip" onclick="retBody(this,'내추럴')">내추럴</button><button type="button" class="chip-q" aria-label="체형 유형 설명" onclick="document.getElementById('bodyTip').classList.toggle('on')">?</button></div>
+<div id="bodyTip" class="body-tip"><b>스트레이트</b> 상체에 볼륨이 있고 몸이 입체적이에요. 허리 위치가 높고 엉덩이가 위로 올라붙은 편이에요.<br><b>웨이브</b> 상체가 얇고 엉덩이·허벅지에 볼륨이 있어요. 곡선형이고 허리 위치가 낮은 편이에요.<br><b>내추럴</b> 뼈대가 크고 직선적이에요. 어깨·쇄골·무릎 관절이 두드러지고 살집이 적은 편이에요.<br><small>잘 모르겠으면 "모르겠어요"를 두셔도 돼요.</small></div>
 <label class="ret-agree"><input type="checkbox" id="retAgree" checked> 다음 고객의 사이즈 근거로 익명 활용하는 데 동의해요</label></div>
 </div>
 <button class="buy" id="retSubmit" onclick="retSubmit()">반품 신청하기</button>
@@ -957,15 +959,15 @@ function retSetProduct(id){
   if(id===CUR&&selected!=null)ss.value=String(selected);else ss.selectedIndex=Math.floor(sz.length/2);
   retWishBuild();
   document.getElementById('retParts').innerHTML=retPartsOf(id).map(function(q){
-    return '<div class="ret-part" data-k="'+q[0]+'"><div class="ret-part-h"><b>'+q[1]+'</b><span>'+RET_SCALE[2]+'</span></div><div class="ret-scale">'+
-      [0,1,2,3,4].map(function(i){return '<button type="button" class="'+(i===2?'on mid':'')+'" onclick="retLevel(\''+q[0]+'\','+i+',this)">'+RET_SCALE[i]+'</button>'}).join('')+
-      '</div><div class="ret-desc">'+q[2][2]+'</div></div>'}).join('');
+    return '<div class="ret-part" data-k="'+q[0]+'"><div class="ret-part-h"><b>'+q[1]+'</b><span>선택 안 함</span></div><div class="ret-scale">'+
+      [0,1,2,3,4].map(function(i){return '<button type="button" class="" onclick="retLevel(\''+q[0]+'\','+i+',this)">'+RET_SCALE[i]+'</button>'}).join('')+
+      '</div><div class="ret-desc"></div></div>'}).join('');
 }
 function retLevel(k,i,el){
-  var box=el.closest('.ret-part'),q=retPartsOf(RET.id).filter(function(x){return x[0]===k})[0];
-  RET.lv[k]=i-2;
-  box.querySelectorAll('.ret-scale button').forEach(function(b,j){b.classList.toggle('on',j===i)});
-  box.querySelector('.ret-part-h span').textContent=RET_SCALE[i];box.querySelector('.ret-desc').textContent=q[2][i];
+  var box=el.closest('.ret-part'),q=retPartsOf(RET.id).filter(function(x){return x[0]===k})[0],off=el.classList.contains('on');
+  if(off)delete RET.lv[k];else RET.lv[k]=i-2;
+  box.querySelectorAll('.ret-scale button').forEach(function(b,j){b.classList.toggle('on',!off&&j===i)});
+  box.querySelector('.ret-part-h span').textContent=off?'선택 안 함':RET_SCALE[i];box.querySelector('.ret-desc').textContent=off?'':q[2][i];
 }
 function retReason(el,v){RET.reason=v;document.querySelectorAll('#retReason button').forEach(function(b){b.classList.toggle('on',b===el)});
   document.getElementById('retFitSteps').style.display=v==='fit'?'block':'none';document.getElementById('retEtcBox').style.display=v==='fit'?'none':'block';
