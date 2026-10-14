@@ -592,13 +592,13 @@ body,button,input,textarea,select{font-family:Pretendard,-apple-system,'Apple SD
 <section id="returnPage" class="page"><div class="page-wrap ret-wrap"><button class="back" onclick="history.length&&CUR?openProduct(CUR):showHome()">← BACK</button>
 <div class="eyebrow">MY ORDER</div><h1 class="ret-title">Return Request</h1><div class="eyebrow ret-ko">반품 신청</div>
 <p class="ret-sub">REFIT 프로토타입의 반품 화면이에요. 여기서 남긴 정보가 다음 고객이 보는 사이즈 근거가 돼요.</p>
-<div class="ret-item"><img id="retImg" alt=""><div><div class="mb" id="retCat"></div><div class="mn" id="retName"></div><div class="ret-pick"><label>주문 상품 <select id="retProd" onchange="retSetProduct(this.value)"></select></label><label>구매 사이즈 <select id="retSize"></select></label></div></div></div>
+<div class="ret-item"><img id="retImg" alt=""><div><div class="mb" id="retCat"></div><div class="mn" id="retName"></div><div class="ret-pick"><label>주문 상품 <select id="retProd" onchange="retSetProduct(this.value)"></select></label><label>구매 사이즈 <select id="retSize" onchange="retWishBuild()"></select></label></div></div></div>
 <div class="ret-step"><h3><em>1</em>반품 사유</h3><div class="ret-opts" id="retReason">
 <button type="button" class="on" onclick="retReason(this,'fit')">사이즈·핏이 안 맞아요</button><button type="button" onclick="retReason(this,'mind')">단순 변심</button><button type="button" onclick="retReason(this,'defect')">상품 불량</button><button type="button" onclick="retReason(this,'ship')">오배송</button></div>
 <p class="ret-note" id="retReasonNote"></p><div id="retEtcBox" style="display:none"><textarea id="retEtc" class="ret-etc" maxlength="300" placeholder="반품 사유를 자세히 적어주세요. (예: 생각했던 색감과 달라요 / 박음질이 풀려 있어요 / 다른 사이즈가 왔어요)"></textarea></div></div>
 <div id="retFitSteps">
 <div class="ret-step"><h3><em>2</em>부위별로 어땠나요?</h3><p class="ret-help">안 맞았던 부위만 골라주세요. 나머지는 "딱 맞아요"로 둬도 괜찮아요.</p><div id="retParts"></div></div>
-<div class="ret-step"><h3><em>3</em>어떤 사이즈였으면 맞았을까요?</h3><div class="ret-opts" id="retWish"><button type="button" onclick="retWish(this,-1)">한 치수 작게</button><button type="button" class="on" onclick="retWish(this,0)">잘 모르겠어요</button><button type="button" onclick="retWish(this,1)">한 치수 크게</button></div></div>
+<div class="ret-step"><h3><em>3</em>어떤 사이즈였으면 맞았을까요?</h3><div class="ret-opts" id="retWish"></div></div>
 <div class="ret-step"><h3><em>4</em>체형 정보 <span>(선택)</span></h3><p class="ret-help">입력하면 비슷한 체형의 고객에게만 묶어서 보여줘요. 이름·연락처와는 연결되지 않아요.</p>
 <div class="inputs"><input id="retH" class="input" type="number" placeholder="키 cm" min="140" max="200"><input id="retW" class="input" type="number" placeholder="몸무게 kg" min="35" max="120"></div>
 <div class="chips" id="retBody"><button type="button" class="chip active" onclick="retBody(this,'')">모르겠어요</button><button type="button" class="chip" onclick="retBody(this,'스트레이트')">스트레이트</button><button type="button" class="chip" onclick="retBody(this,'웨이브')">웨이브</button><button type="button" class="chip" onclick="retBody(this,'내추럴')">내추럴</button></div>
@@ -937,7 +937,7 @@ function retLabel(id,key,dir){var P=PRODUCTS[id],top=P.prof&&P.prof.top,men=P.pr
   var M=top?{shoulder:['어깨 좁음','어깨 큼'],chest:['가슴 낌','품 큼'],sleeve:['소매 짧음','소매 김'],arm:['암홀 좁음','암홀 큼'],len:['총장 짧음','총장 김']}
            :{waist:['허리 작음','허리 큼'],hip:[men?'엉덩이 낌':'엉덩이·골반 낌',men?'엉덩이 큼':'엉덩이·골반 큼'],thigh:['허벅지 낌','허벅지 큼'],rise:['밑위 짧음','밑위 김'],len:['기장 짧음','기장 김']};
   return M[key][dir<0?0:1]}
-var RET={id:'classic',reason:'fit',lv:{},wish:0,body:''},RET_EXTRA={};
+var RET={id:'classic',reason:'fit',lv:{},wish:'',body:''},RET_EXTRA={};
 function openReturn(id){
   document.getElementById('retEtc').value='';
   retReason(document.querySelector('#retReason button'),'fit');
@@ -955,6 +955,7 @@ function retSetProduct(id){
   document.getElementById('retName').textContent=P.name+' ['+P.color+']';
   var ss=document.getElementById('retSize');ss.innerHTML=sz.map(function(z){return '<option>'+z+'</option>'}).join('');
   if(id===CUR&&selected!=null)ss.value=String(selected);else ss.selectedIndex=Math.floor(sz.length/2);
+  retWishBuild();
   document.getElementById('retParts').innerHTML=retPartsOf(id).map(function(q){
     return '<div class="ret-part" data-k="'+q[0]+'"><div class="ret-part-h"><b>'+q[1]+'</b><span>'+RET_SCALE[2]+'</span></div><div class="ret-scale">'+
       [0,1,2,3,4].map(function(i){return '<button type="button" class="'+(i===2?'on mid':'')+'" onclick="retLevel(\''+q[0]+'\','+i+',this)">'+RET_SCALE[i]+'</button>'}).join('')+
@@ -969,6 +970,10 @@ function retLevel(k,i,el){
 function retReason(el,v){RET.reason=v;document.querySelectorAll('#retReason button').forEach(function(b){b.classList.toggle('on',b===el)});
   document.getElementById('retFitSteps').style.display=v==='fit'?'block':'none';document.getElementById('retEtcBox').style.display=v==='fit'?'none':'block';
   document.getElementById('retReasonNote').textContent=v==='fit'?'':'사이즈·핏 이외의 반품은 REFIT 데이터에 집계하지 않아요. 사이즈 근거가 흐려지지 않게 하기 위해서예요.'}
+function retWishBuild(){
+  var P=PRODUCTS[RET.id],sz=(P.sizes||PANTS.sizes),cur=document.getElementById('retSize').value;RET.wish='';
+  document.getElementById('retWish').innerHTML=sz.filter(function(z){return String(z)!==cur}).map(function(z){return '<button type="button" onclick="retWish(this,\''+z+'\')">'+z+'</button>'}).join('')+'<button type="button" class="on" onclick="retWish(this,\'\')">잘 모르겠어요</button>';
+}
 function retWish(el,v){RET.wish=v;document.querySelectorAll('#retWish button').forEach(function(b){b.classList.toggle('on',b===el)})}
 function retBody(el,v){RET.body=v;document.querySelectorAll('#retBody .chip').forEach(function(b){b.classList.toggle('active',b===el)})}
 function retSubmit(){
@@ -982,7 +987,7 @@ function retSubmit(){
   var h=parseFloat(document.getElementById('retH').value),w=parseFloat(document.getElementById('retW').value),agree=document.getElementById('retAgree').checked;
   var rec={h:h>0&&agree?Math.round(h):-999,w:w>0&&agree?Math.round(w):-999,t:agree&&RET.body?RET.body:'전체 미입력',size:size,r:main};
   (RET_EXTRA[id]=RET_EXTRA[id]||[]).push(rec);if(id===CUR)DATA.push(rec);
-  var wishTxt=RET.wish<0?'한 치수 작게':RET.wish>0?'한 치수 크게':'잘 모르겠어요';
+  var wishTxt=RET.wish?RET.wish+' 사이즈':'잘 모르겠어요';
   done.innerHTML='<h4>반품 신청이 접수됐어요</h4>REFIT 데이터에 이렇게 반영돼요.<div class="tagz"><span>'+P.name+' · '+size+'</span><span>반품 이유 · '+main+'</span>'+(labels.length>1?'<span>함께 · '+labels.slice(1).join(', ')+'</span>':'')+'<span>원했던 사이즈 · '+wishTxt+'</span>'+(rec.h>0?'<span>키 '+rec.h+'cm · '+(rec.w>0?rec.w+'kg':'몸무게 미입력')+'</span>':'<span>체형 정보 미입력</span>')+'</div>'+
     '다음 고객이 '+P.name+' '+size+(jo(size)==='를'?'를':'을')+' 고르면, 이 반품이 "'+main+'" 1건으로 함께 집계돼요.<div class="page-cta" style="margin-top:14px"><button class="cta" onclick="retCheck()">상품 페이지에서 확인하기 →</button></div>';
   done.className='ret-done on';document.getElementById('retSubmit').style.display='none';
