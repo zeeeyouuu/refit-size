@@ -837,14 +837,14 @@ function renderCompare(){
 var BODY_DESC={'전체':'잘 모르겠으면 [전체]로 두세요. 키·몸무게만으로도 비슷한 체형을 찾아드려요.','스트레이트':'<b>스트레이트</b> 상체에 두께감이 있고 근육이 잘 붙는 편 · 가슴과 엉덩이 위치가 높아요','웨이브':'<b>웨이브</b> 상체가 얇고 하체에 볼륨이 있는 편 · 허리선이 낮고 곡선이 부드러워요','내추럴':'<b>내추럴</b> 뼈대와 관절이 크고 어깨가 넓은 편 · 직선적인 골격이에요'};
 function setBodyHelp(v){var h=document.getElementById('bodyHelp');if(h){h.className='body-help on';h.innerHTML='<p class="body-help-tip" style="margin:0;color:#555">'+(BODY_DESC[v]||BODY_DESC['전체'])+'</p>'}}
 function chooseBody(el,val){body=val;setBodyHelp(val);document.querySelectorAll('.chip').forEach(function(x){x.classList.remove('active')});el.classList.add('active');if(filtered){renderReasons();renderCompare()}}
-function applyFilter(){
+function applyFilter(noScroll){
   var h=parseFloat(document.getElementById('height').value),w=parseFloat(document.getElementById('weight').value);
   if(!(h>0)||!(w>0)){toast('키와 몸무게를 모두 입력해주세요.');return}
   if(h<140||h>200||w<35||w>120){toast('키 140~200cm · 몸무게 35~120kg 범위로 입력해주세요.');return}
   H=Math.round(h);W=Math.round(w);filtered=true;
   calcRec();renderReasons();
   renderCompare();
-  var c0=document.getElementById('refitCard');window.scrollTo({top:c0.getBoundingClientRect().top+window.scrollY-110,behavior:'smooth'});c0.classList.remove('flash');void c0.offsetWidth;c0.classList.add('flash');
+  var c0=document.getElementById('refitCard');if(!noScroll)window.scrollTo({top:c0.getBoundingClientRect().top+window.scrollY-110,behavior:'smooth'});c0.classList.remove('flash');void c0.offsetWidth;c0.classList.add('flash');
   toast('비슷한 체형 기준으로 바꿨어요.');
 }
 function toggleCompare(){var c=document.getElementById('compareContent'),m=document.getElementById('compareMore');if(!c.classList.contains('open'))renderCompare();c.classList.toggle('open');m.classList.toggle('open',c.classList.contains('open'))}
@@ -1096,8 +1096,7 @@ function demoBtnSync(){var b=document.getElementById('demoBtn'),d=DEMO[CUR];if(!
 function loadDemo(){
   var d=DEMO[CUR];if(!d)return;
   var z=SZ.filter(function(x){return String(x)===String(d.size)})[0];if(z===undefined)return;
-  selectSize(z);document.getElementById('height').value=d.h;document.getElementById('weight').value=d.w;applyFilter();
-  var c=document.getElementById('refitCard');if(c)c.scrollIntoView({behavior:'smooth',block:'center'});
+  selectSize(z);document.getElementById('height').value=d.h;document.getElementById('weight').value=d.w;applyFilter(true);
 }
 var _lpDemo=loadProduct;loadProduct=function(id){_lpDemo(id);demoBtnSync()};demoBtnSync();
 
