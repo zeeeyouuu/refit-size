@@ -1116,12 +1116,12 @@ function contrastHTML(t){
   if(!t||!t.bars||!t.bars[0]||typeof REVIEWS==='undefined'||!REVIEWS.length)return '';
   var rv=REVIEWS.filter(function(r){return r.size===selected}),own=rv.length>=5;if(!own)rv=REVIEWS;
   var n=rv.length,fit=0,st=0;rv.forEach(function(r){if(r.fit===2)fit++;st+=(+r.st||5)});
-  var top=t.bars[0],sub=own?'★'+(st/n).toFixed(1)+' · 후기 '+n+'건':'전체 후기 '+n+'건 기준 · 이 사이즈 후기는 적어요';
+  var top=t.bars[0],sub=own?'★'+(st/n).toFixed(1)+' · 후기 '+n+'건 중':'전체 후기 '+n+'건 중 · 이 사이즈 후기는 적어요';
   return '<div class="cmp-vs"><div class="cmp-h">같은 <b>'+selected+'</b>, 다른 이야기</div><div class="cmp-grid">'+
     '<div class="cmp-c"><small>산 사람의 후기</small><b>정사이즈 '+Math.round(fit/n*100)+'%</b><span>'+sub+'</span></div>'+
     '<div class="cmp-mid">vs</div>'+
-    '<div class="cmp-c cmp-r"><small>돌려보낸 사람의 이유</small><b>'+top[0]+' '+top[1]+'%</b><span>반품·교환 '+t.returns.toLocaleString()+'건 기준<br>구매자 '+t.buyers.toLocaleString()+'명 중 '+top[2]+'명('+Math.round(top[2]/t.buyers*100)+'%)</span></div>'+
-    '</div><div class="cmp-note">후기에는 거의 안 보이는 이야기가 반품·교환에는 남아 있어요. (예시 데이터)</div></div>';
+    '<div class="cmp-c cmp-r"><small>돌려보낸 사람의 이유</small><b>'+top[0]+' '+top[1]+'%</b><span>반품·교환 '+t.returns.toLocaleString()+'건 중</span></div>'+
+    '</div><div class="cmp-note">후기에는 거의 안 보이는 이야기가 반품·교환에는 남아 있어요. 두 비율은 서로 다른 집단 기준이에요. (예시 데이터)</div></div>';
 }
 var FOLLOWED=false;
 function followSync(){document.querySelectorAll('.mfol,.mfollow').forEach(function(b){b.classList.toggle('on',FOLLOWED);var h=b.querySelector('.mhh');if(h)h.textContent=FOLLOWED?'♥':'♡'})}
